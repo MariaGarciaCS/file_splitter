@@ -11,9 +11,13 @@ def string_to_csv(input, filename):
 
         while(len(values) >= 13):
             if(next_precinct):
-                current_row = [next_precinct] + values[:12]
-                last_val = values[12][:-4]
-                next_precinct = values[12][-4:]
+                if(len(values[12]) >= 4):
+                    last_val = values[12][:-4]
+                    next_precinct = values[12][-4:]
+                else: 
+                    last_val = values[12]
+                current_row = [next_precinct] + values[:12] + [last_val]
+                
                 values = values[13:]
             else:
                 #for first iteration
@@ -26,37 +30,10 @@ def string_to_csv(input, filename):
             print("next precinct: ", next_precinct)
             print("last_value: ", last_val)
             print(current_row)
+            csvwriter.writerow(current_row)
 
             current_row.append(last_val)
 
-
-
-       
-
-
-
-        # for i in range(0, len(values)):
-        #     current_row = values[:13]
-        #     if i % 14 == 13:
-        #         last_four_chars = values[i][-4:]
-        #         first_part = values[i][:-4]
-
-        #         print("precinct: ", last_four_chars)
-        #         print("last_value: ", first_part)
-
-               
-        #         current_row.append(first_part)
-        #         csvwriter.writerow(current_row)
-
-              
-        #         csvwriter.writerow([last_four_chars])
-
-        #         current_row = []
-        #     else:
-        #         current_row.append(values[i])
-
-        # if current_row:
-        #     csvwriter.writerow(current_row)
 
     print("\n --- success ---")
 
